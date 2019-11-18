@@ -19,9 +19,20 @@ namespace NBitcoin
 		/// <param name="str">The string to parse</param>
 		/// <param name="result">The result</param>
 		/// <returns>True if it was possible to parse the string</returns>
-		public virtual bool TryParse<T>(string str, Network network, out T result) where T : IBitcoinString
+		public bool TryParse<T>(string str, Network network, out T result) where T : IBitcoinString
 		{
-			result = default(T);
+			if (TryParse(str, network, typeof(T), out var r) && r is T o)
+			{
+				result = o;
+				return true;
+			}
+			result = default;
+			return false;
+		}
+
+		public virtual bool TryParse(string str, Network network, Type targetType, out IBitcoinString result)
+		{
+			result = null;
 			return false;
 		}
 

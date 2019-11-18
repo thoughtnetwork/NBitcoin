@@ -1,4 +1,5 @@
-﻿using NBitcoin.DataEncoders;
+﻿#nullable enable
+using NBitcoin.DataEncoders;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -34,10 +35,32 @@ namespace NBitcoin
 			}
 		}
 
-		protected void Init<T>(string base64, Network expectedNetwork = null) where T : Base58Data
+		protected Base58Data(string base58, Network expectedNetwork)
 		{
+			if (base58 == null)
+				throw new ArgumentNullException(nameof(base58));
+			if (expectedNetwork == null)
+				throw new ArgumentNullException(nameof(expectedNetwork));
 			_Network = expectedNetwork;
-			SetString<T>(base64);
+
+			if (_Network.TryExtractBase58Data(Type, base58, out var data) && data is byte[])
+			{
+				this.vchData = data;
+				this.wifData = base58;
+			}
+			else if (_Network.NetworkStringParser.TryParse(base58, Network, this.GetType(), out var other) && other is Base58Data o)
+			{
+				this.vchData = o.vchData;
+				this.wifData = o.wifData;
+			}
+			else
+			{
+				throw new FormatException("Invalid " + this.GetType().Name);
+			}
+
+			if (!IsValid)
+				throw new FormatException("Invalid " + this.GetType().Name);
+
 		}
 
 		protected Base58Data(byte[] rawBytes, Network network)
@@ -47,54 +70,15 @@ namespace NBitcoin
 			_Network = network;
 			SetData(rawBytes);
 		}
-		public Base58Data()
-		{
-
-		}
-		private void SetString<T>(string psz) where T : Base58Data
-		{
-			if (_Network == null)
-			{
-				_Network = Network.GetNetworkFromBase58Data(psz, Type);
-				if (_Network == null)
-					throw new FormatException("Invalid " + this.GetType().Name);
-			}
-
-			byte[] vchTemp = _Network.NetworkStringParser.GetBase58CheckEncoder().DecodeData(psz);
-			var expectedVersion = _Network.GetVersionBytes(Type, true);
-
-
-			vchVersion = vchTemp.SafeSubarray(0, expectedVersion.Length);
-			if (!Utils.ArrayEqual(vchVersion, expectedVersion))
-			{
-				if (_Network.NetworkStringParser.TryParse(psz, Network, out T other))
-				{
-					this.vchVersion = other.vchVersion;
-					this.vchData = other.vchData;
-					this.wifData = other.wifData;
-				}
-				else
-				{
-					throw new FormatException("The version prefix does not match the expected one " + String.Join(",", expectedVersion));
-				}
-			}
-			else
-			{
-				vchData = vchTemp.SafeSubarray(expectedVersion.Length);
-				wifData = psz;
-			}
-
-			if (!IsValid)
-				throw new FormatException("Invalid " + this.GetType().Name);
-
-		}
 
 
 		private void SetData(byte[] vchData)
 		{
 			this.vchData = vchData;
-			this.vchVersion = _Network.GetVersionBytes(Type, true);
-			wifData = _Network.NetworkStringParser.GetBase58CheckEncoder().EncodeData(vchVersion.Concat(vchData).ToArray());
+			if (_Network.GetVersionBytes(Type, true) is byte[] v)
+			{
+				wifData = _Network.NetworkStringParser.GetBase58CheckEncoder().EncodeData(v.Concat(vchData).ToArray());
+			}
 
 			if (!IsValid)
 				throw new FormatException("Invalid " + this.GetType().Name);
@@ -131,10 +115,9 @@ namespace NBitcoin
 
 		public override bool Equals(object obj)
 		{
-			Base58Data item = obj as Base58Data;
-			if (item == null)
-				return false;
-			return ToString().Equals(item.ToString());
+			if (obj is Base58Data base58Data)
+				return Network == base58Data.Network && ToString().Equals(base58Data.ToString());
+			return false;
 		}
 		public static bool operator ==(Base58Data a, Base58Data b)
 		{
@@ -156,3 +139,4 @@ namespace NBitcoin
 		}
 	}
 }
+#nullable disable
