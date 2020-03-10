@@ -24,6 +24,7 @@ Currently supported altcoins are:
 * Chaincoin
 * ZCoin
 * DogeCash
+* Thought
 
 ## How to use?
 

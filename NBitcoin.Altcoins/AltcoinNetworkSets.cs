@@ -35,6 +35,7 @@ namespace NBitcoin.Altcoins
 		public static Stratis Stratis { get; } = Stratis.Instance;
 		public static ZCoin ZCoin { get; } = ZCoin.Instance;
 		public static DogeCash DogeCash { get; } = DogeCash.Instance;
+    public static Thought Thought { get; } = Thought.Instance;
 
 		public static IEnumerable<INetworkSet> GetAll()
 		{
