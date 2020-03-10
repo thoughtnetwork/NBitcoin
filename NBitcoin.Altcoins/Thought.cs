@@ -1,10 +1,11 @@
-﻿using NBitcoin.Crypto;
+﻿using NBitcoin.Altcoins.Cuckoo;
+using NBitcoin.Crypto;
 using NBitcoin.DataEncoders;
 using NBitcoin.Protocol;
 using System;
 using System.IO;
 using System.Linq;
-using NBitcoin.Altcoins.Cuckoo;
+
 namespace NBitcoin.Altcoins
 {
 	// Reference: https://github.com/thoughtnetwork/thought/blob/master/src/chainparams.cpp
