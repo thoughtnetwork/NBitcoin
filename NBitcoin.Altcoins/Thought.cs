@@ -12,7 +12,7 @@ namespace NBitcoin.Altcoins
 	{
 		public static Thought Instance { get; } = new Thought();
 
-		public override string CryptoCode => "THOUGHT";
+		public override string CryptoCode => "THT";
 
 		private Thought()
 		{
