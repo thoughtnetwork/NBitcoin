@@ -3,8 +3,10 @@ using NBitcoin.Crypto;
 using NBitcoin.DataEncoders;
 using NBitcoin.Protocol;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace NBitcoin.Altcoins
 {
@@ -48,25 +50,85 @@ namespace NBitcoin.Altcoins
 #pragma warning disable CS0618 // Type or member is obsolete
 		public class ThoughtBlockHeader : BlockHeader
 		{
-			// https://github.com/thoughtnetwork/thought/blob/e596762ca22d703a79c6880a9d3edb1c7c972fd3/src/primitives/block.cpp#L13
-			static byte[] CalculateHash(byte[] data, int offset, int count)
+			public const uint CUCKOO_HARDFORK_VERSION_MASK = 0x40000000;
+			public const uint CUCKOO_HARDFORK_MIN_TIME = 1528835939;
+
+			private readonly uint[] cuckooProof = new uint[CuckooVerifier.ProofSize];
+			public IEnumerable<uint> CuckooProof
 			{
-				return new HashX11.X11().ComputeBytes(data.Skip(offset).Take(count).ToArray());
+				get
+				{
+					return new List<uint>(cuckooProof);
+				}
+				set
+				{
+					int i = 0;
+					foreach (var nonce in value)
+					{
+						if (i == CuckooVerifier.ProofSize)
+						{
+							throw new ArgumentException("Proof too long");
+						}
+						cuckooProof[i] = nonce;
+					}
+					if (i < CuckooVerifier.ProofSize)
+					{
+						throw new ArgumentException("Proof too short");
+					}
+				}
 			}
 
-			bool ValidateCuckooProof()
+			public override void ReadWrite(BitcoinStream stream)
 			{
-				// get data somehow...
-
-				uint[] nonces = new uint[CuckooVerifier.ProofSize];
-				var keyBuffer = new byte[sizeof(ulong) * 4];
-				// get keybuffer data here...
-				return CuckooVerifier.Verify(nonces, new SiphashKeys(keyBuffer), 24) == VerificationResult.Ok;
+				base.ReadWrite(stream);
+				if (IsCuckooPoW())
+				{
+					for (var i = 0; i < CuckooVerifier.ProofSize; i++)
+					{
+						stream.ReadWrite(ref cuckooProof[i]);
+					}
+				}
 			}
 
-			protected override HashStreamBase CreateHashStream()
+			public bool IsCuckooPoW()
 			{
-				return BufferedHashStream.CreateFrom(CalculateHash);
+				return ((nVersion & CUCKOO_HARDFORK_VERSION_MASK) != 0) && (nTime > CUCKOO_HARDFORK_MIN_TIME);
+			}
+
+			public override uint256 GetPoWHash()
+			{
+				if (IsCuckooPoW())
+				{
+					var hash = SHA256.Create();
+					using (var cryptoStream = new CryptoStream(Stream.Null, hash, CryptoStreamMode.Write))
+					{
+						foreach (var nonce in cuckooProof)
+						{
+							cryptoStream.Write(Utils.ToBytes(nonce, true));
+						}
+					}
+					return new uint256(hash.Hash);
+				}
+				else
+				{
+					return GetHash();
+				}
+			}
+
+			protected internal override void SetNull()
+			{
+				base.SetNull();
+				Array.Fill(cuckooProof, 0U);
+			}
+
+			internal bool ValidateCuckooProof()
+			{
+				return CuckooVerifier.Verify(cuckooProof, new SiphashKeys((this).ToBytes()), 24) == VerificationResult.Ok;
+			}
+
+			public new bool CheckProofOfWork()
+			{
+				return (!IsCuckooPoW() || ValidateCuckooProof()) && base.CheckProofOfWork();
 			}
 		}
 
