@@ -41,7 +41,7 @@ namespace NBitcoin.Altcoins.Cuckoo
         }
 
         /// <summary>
-        /// Initialize a SiphashKeys instance from a buffer of keys.
+        /// Initialize a SiphashKeys instance from a block header.
         /// </summary>
         /// <param name="blockHeader">At least 80 bytes of the block header.</param>
         public SiphashKeys(byte[] blockHeader)
