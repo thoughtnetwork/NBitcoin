@@ -70,6 +70,7 @@ namespace NBitcoin.Altcoins
 							throw new ArgumentException("Proof too long");
 						}
 						cuckooProof[i] = nonce;
+						i += 1;
 					}
 					if (i < CuckooVerifier.ProofSize)
 					{
