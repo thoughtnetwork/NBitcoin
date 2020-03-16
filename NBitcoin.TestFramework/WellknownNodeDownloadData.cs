@@ -507,7 +507,7 @@ namespace NBitcoin.Tests
 				}
 			};
 		}
-		
+
 		public class VergeNodeDownloadData
 		{
 			public NodeDownloadData v6_0_2 = new NodeDownloadData()
@@ -1177,7 +1177,7 @@ namespace NBitcoin.Tests
 				AdditionalRegtestConfig = "defaultwalletname=default" + Environment.NewLine + "maxtipage=2147483647" + Environment.NewLine + "unlockdefaultwallet=1"
 			};
 		}
-		
+
 		public class DogeCashNodeDownloadData
 		{
 			public NodeDownloadData v5_1_1 = new NodeDownloadData()
@@ -1204,6 +1204,35 @@ namespace NBitcoin.Tests
 					Executable = "DogeCash-5.0.1-osx-unsigned.dmg",
 					Hash = "13B0DBF2480EB47D2B8A5B82145FE2FC87AEF22CB5CDF78E01C27A41C8CD41D1"
 				}
+			};
+		}
+
+		public class DashNodeDownloadData
+		{
+			public NodeDownloadData v0_18_0_0 = new NodeDownloadData()
+			{
+				Version = "0.18.0.0",
+				//Windows = new NodeOSDownloadData()
+				//{
+				//	DownloadLink = "https://github.com/dashpay/dash/releases/download/v{0}/dashcore-{0}-win64.zip",
+				//	Archive = "dashcore-{0}-win64.zip",
+				//	Executable = "dashcore-0.13.0/bin/dashd.exe",
+				//	Hash = "89d2e06701f948cfecea612fb6b1a0175227108990a29849fc6fcc8a28fb62fd"
+				//},
+				Linux = new NodeOSDownloadData()
+				{
+					DownloadLink = "https://github.com/thoughtnetwork/thought-wallet/raw/master/linux/thoughtcore-0.18.0-x86_64-pc-linux-gnu.tar.gz",
+					Archive = "thoughtcore-0.18.0-x86_64-pc-linux-gnu.tar.gz",
+					Executable = "thoughtcore/bin/thoughtd",
+					Hash = "42dacc5222f89070a71d58ef4dc1a80e26ab0e3d743ff3d850de30f1d3ca6341"
+				},
+				//Mac = new NodeOSDownloadData()
+				//{
+				//	DownloadLink = "https://github.com/dashpay/dash/releases/download/v{0}/dashcore-{0}-osx-unsigned.dmg",
+				//	Archive = "dashcore-{0}-osx-unsigned.dmg",
+				//	Executable = "dashcore-0.13.0/bin/dashd",
+				//	Hash = "6f97f502732e5b63a431d0edb5a9d14e95ff8afb8e7eb94463566a75e7589a70"
+				//}
 			};
 		}
 
@@ -1340,7 +1369,7 @@ namespace NBitcoin.Tests
 		{
 			get; set;
 		} = new ZCoinNodeDownloadData();
-		
+
 		public static DogeCashNodeDownloadData DogeCash
 		{
 			get; set;
