@@ -1207,18 +1207,18 @@ namespace NBitcoin.Tests
 			};
 		}
 
-		public class DashNodeDownloadData
+		public class ThoughtNodeDownloadData
 		{
 			public NodeDownloadData v0_18_0_0 = new NodeDownloadData()
 			{
 				Version = "0.18.0.0",
-				//Windows = new NodeOSDownloadData()
-				//{
-				//	DownloadLink = "https://github.com/dashpay/dash/releases/download/v{0}/dashcore-{0}-win64.zip",
-				//	Archive = "dashcore-{0}-win64.zip",
-				//	Executable = "dashcore-0.13.0/bin/dashd.exe",
-				//	Hash = "89d2e06701f948cfecea612fb6b1a0175227108990a29849fc6fcc8a28fb62fd"
-				//},
+				Windows = new NodeOSDownloadData()
+				{
+					DownloadLink = "https://github.com/dashpay/dash/releases/download/v{0}/dashcore-{0}-win64.zip",
+					Archive = "dashcore-{0}-win64.zip",
+					Executable = "dashcore-0.13.0/bin/dashd.exe",
+					Hash = "89d2e06701f948cfecea612fb6b1a0175227108990a29849fc6fcc8a28fb62fd"
+				},
 				Linux = new NodeOSDownloadData()
 				{
 					DownloadLink = "https://github.com/thoughtnetwork/thought-wallet/raw/master/linux/thoughtcore-0.18.0-x86_64-pc-linux-gnu.tar.gz",
@@ -1226,13 +1226,13 @@ namespace NBitcoin.Tests
 					Executable = "thoughtcore/bin/thoughtd",
 					Hash = "42dacc5222f89070a71d58ef4dc1a80e26ab0e3d743ff3d850de30f1d3ca6341"
 				},
-				//Mac = new NodeOSDownloadData()
-				//{
-				//	DownloadLink = "https://github.com/dashpay/dash/releases/download/v{0}/dashcore-{0}-osx-unsigned.dmg",
-				//	Archive = "dashcore-{0}-osx-unsigned.dmg",
-				//	Executable = "dashcore-0.13.0/bin/dashd",
-				//	Hash = "6f97f502732e5b63a431d0edb5a9d14e95ff8afb8e7eb94463566a75e7589a70"
-				//}
+				Mac = new NodeOSDownloadData()
+				{
+					DownloadLink = "https://github.com/dashpay/dash/releases/download/v{0}/dashcore-{0}-osx-unsigned.dmg",
+					Archive = "dashcore-{0}-osx-unsigned.dmg",
+					Executable = "dashcore-0.13.0/bin/dashd",
+					Hash = "6f97f502732e5b63a431d0edb5a9d14e95ff8afb8e7eb94463566a75e7589a70"
+				}
 			};
 		}
 
@@ -1374,6 +1374,11 @@ namespace NBitcoin.Tests
 		{
 			get; set;
 		} = new DogeCashNodeDownloadData();
+
+		public static ThoughtNodeDownloadData Thought
+		{
+			get; set;
+		} = new ThoughtNodeDownloadData();
 
 		public bool UseSectionInConfigFile { get; private set; }
 		public string AdditionalRegtestConfig { get; private set; }
