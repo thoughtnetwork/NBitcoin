@@ -100,15 +100,13 @@ namespace NBitcoin.Altcoins
 			{
 				if (IsCuckooPoW())
 				{
-					var hash = SHA256.Create();
-					using (var cryptoStream = new CryptoStream(Stream.Null, hash, CryptoStreamMode.Write))
+					var proofBytes = new byte[sizeof(uint) * CuckooVerifier.ProofSize];
+					for (int i = 0; i < cuckooProof.Length; i += 1)
 					{
-						foreach (var nonce in cuckooProof)
-						{
-							cryptoStream.Write(Utils.ToBytes(nonce, true));
-						}
+						Utils.ToBytes(cuckooProof[i], true).CopyTo(proofBytes, sizeof(ulong) * i);
 					}
-					return new uint256(hash.Hash);
+
+					return new uint256(Hashes.SHA256(proofBytes));
 				}
 				else
 				{
@@ -119,7 +117,10 @@ namespace NBitcoin.Altcoins
 			protected internal override void SetNull()
 			{
 				base.SetNull();
-				Array.Fill(cuckooProof, 0U);
+				for (int i = 0; i < cuckooProof.Length; i += 1)
+				{
+					cuckooProof[i] = 0U;
+				}
 			}
 
 			internal bool ValidateCuckooProof()
