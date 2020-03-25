@@ -1214,11 +1214,12 @@ namespace NBitcoin.Tests
 				Version = "0.18.0.0",
 				Windows = new NodeOSDownloadData()
 				{
-					DownloadLink = "https://github.com/dashpay/dash/releases/download/v{0}/dashcore-{0}-win64.zip",
-					Archive = "dashcore-{0}-win64.zip",
-					Executable = "dashcore-0.13.0/bin/dashd.exe",
-					Hash = "89d2e06701f948cfecea612fb6b1a0175227108990a29849fc6fcc8a28fb62fd"
+					DownloadLink = "https://github.com/thoughtnetwork/thought-wallet/raw/master/windows/thoughtd.exe",
+					Archive = "",
+					Executable = "thoughtd.exe",
+					Hash = "bf75bbb1e35be25bc74f390dbca485dc637308145f764855d25ae3adf574f5c5"
 				},
+
 				Linux = new NodeOSDownloadData()
 				{
 					DownloadLink = "https://github.com/thoughtnetwork/thought-wallet/raw/master/linux/thoughtcore-0.18.0-x86_64-pc-linux-gnu.tar.gz",

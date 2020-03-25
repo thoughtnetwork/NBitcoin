@@ -117,5 +117,7 @@
 
 	<PropertyGroup>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <Version>5.0.18-thought1</Version>
 	</PropertyGroup>
 </Project>

@@ -22,6 +22,8 @@
 		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
 		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <NoWarn>1591;1573;1572;1584;1570;3021</NoWarn>
+    <Version>2.0.5-thought2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -54,5 +56,9 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Optimize>true</Optimize>
     <DocumentationFile>bin\Release\NBitcoin.TestFramework.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <OutputPath>C:\output\</OutputPath>
   </PropertyGroup>
 </Project>
