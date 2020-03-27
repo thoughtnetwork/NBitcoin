@@ -103,10 +103,10 @@ namespace NBitcoin.Altcoins
 					var proofBytes = new byte[sizeof(uint) * CuckooVerifier.ProofSize];
 					for (int i = 0; i < cuckooProof.Length; i += 1)
 					{
-						Utils.ToBytes(cuckooProof[i], true).CopyTo(proofBytes, sizeof(ulong) * i);
+						Utils.ToBytes(cuckooProof[i], true).CopyTo(proofBytes, sizeof(uint) * i);
 					}
 
-					return new uint256(Hashes.SHA256(proofBytes));
+					return new uint256(Hashes.SHA256(Hashes.SHA256(proofBytes)));
 				}
 				else
 				{
