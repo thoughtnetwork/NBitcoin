@@ -96,7 +96,7 @@ namespace NBitcoin.Altcoins
 				return ((nVersion & CUCKOO_HARDFORK_VERSION_MASK) != 0) && (nTime > CUCKOO_HARDFORK_MIN_TIME);
 			}
 
-			public override uint256 GetPoWHash()
+			public override uint256 GetHash()
 			{
 				if (IsCuckooPoW())
 				{
@@ -110,7 +110,7 @@ namespace NBitcoin.Altcoins
 				}
 				else
 				{
-					return GetHash();
+					return base.GetHash();
 				}
 			}
 
