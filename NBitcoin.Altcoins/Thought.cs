@@ -481,7 +481,8 @@ namespace NBitcoin.Altcoins
 				RuleChangeActivationThreshold = 1916,
 				MinerConfirmationWindow = 2016,
 				ConsensusFactory = ThoughtConsensusFactory.Instance,
-				SupportSegwit = false
+				SupportSegwit = false,
+				CoinType = 502
 			})
 			.SetBase58Bytes(Base58Type.PUBKEY_ADDRESS, new byte[] { 7 })
 			.SetBase58Bytes(Base58Type.SCRIPT_ADDRESS, new byte[] { 9 })
@@ -528,7 +529,8 @@ namespace NBitcoin.Altcoins
 				RuleChangeActivationThreshold = 1512,
 				MinerConfirmationWindow = 2016,
 				ConsensusFactory = ThoughtConsensusFactory.Instance,
-				SupportSegwit = false
+				SupportSegwit = false,
+				CoinType = 502
 			})
 			.SetBase58Bytes(Base58Type.PUBKEY_ADDRESS, new byte[] { 109 })
 			.SetBase58Bytes(Base58Type.SCRIPT_ADDRESS, new byte[] { 193 })
