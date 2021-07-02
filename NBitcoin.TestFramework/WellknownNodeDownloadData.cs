@@ -1222,8 +1222,8 @@ namespace NBitcoin.Tests
 
 				Linux = new NodeOSDownloadData()
 				{
-					DownloadLink = "https://github.com/thoughtnetwork/thought-wallet/raw/master/linux/thoughtcore-0.18.0-x86_64-pc-linux-gnu.tar.gz",
-					Archive = "thoughtcore-0.18.0-x86_64-pc-linux-gnu.tar.gz",
+					DownloadLink = "https://github.com/thoughtnetwork/thought-wallet/raw/master/linux/thoughtcore-0.18.1-x86_64-pc-linux-gnu.tar.gz",
+					Archive = "thoughtcore-0.18.1-x86_64-pc-linux-gnu.tar.gz",
 					Executable = "thoughtcore/bin/thoughtd",
 					Hash = "42dacc5222f89070a71d58ef4dc1a80e26ab0e3d743ff3d850de30f1d3ca6341"
 				},
